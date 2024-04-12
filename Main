@@ -2,13 +2,13 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        // Sample usage of Task and TaskManager classes
+
         TaskManager taskManager = new TaskManager();
         Scanner scanner = new Scanner(System.in);
         // Adding tasks
-        taskManager.addTask(new Task(1, "Essay", new Date(124,03,15)));
-        taskManager.addTask(new Task(2, "Math Homework", new Date(124,03,14)));
-        taskManager.addTask(new Task(3, "Chemistry lab report", new Date(124,03,17)));
+        taskManager.addTask(new Task(1, "Essay", new Date(124,03,15), 3));
+        taskManager.addTask(new Task(2, "Math Homework", new Date(124,03,14), 1));
+        taskManager.addTask(new Task(3, "Chemistry lab report", new Date(124,03,17), 2));
         boolean quitting = true;
         while (quitting) {
             System.out.println("Task Management System");
@@ -18,45 +18,68 @@ public class Main {
             System.out.println("4. Generate Report of Tasks Due Today");
             System.out.println("5. Exit");
             System.out.print("Enter your choice: ");
+           int choice = 5;
+try {
+    choice = scanner.nextInt();
+    scanner.nextLine(); // Consume newline character
+}catch(Exception e){
+    System.out.println("Invalid Input");
+    break;
+}
+    switch (choice) { //switch menu
+        case 1:
+            int priority = 0;
+            System.out.print("Enter task description: ");
+            String description = scanner.next();
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
-
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter task description: ");
-                    String description = scanner.nextLine();
-                    System.out.print("Enter due date (yyyy/MM/dd): ");
-                    String dueDateString = scanner.nextLine();
-                    Date dueDate = parseDate(dueDateString);
-                    if (dueDate != null) {
-                        taskManager.addTask(new Task(taskManager.getNextTaskId(), description, dueDate));
-                        System.out.println("Task added successfully.");
-                    } else {
-                        System.out.println("Invalid date format. Please enter date in yyyy-MM-dd format.");
-                    }
-                    break;
-                case 2:
-                    System.out.print("Enter task ID to mark as completed: ");
-                    int taskId = scanner.nextInt();
-                    taskManager.markTaskCompleted(taskId);
-                    break;
-                case 3:
-                    taskManager.viewAllTasks();
-                    break;
-                case 4:
-                    taskManager.generateReportTasksDueToday();
-                    break;
-                case 5:
-                    System.out.println("Exiting...");
-                    quitting = false;
-                default:
-                    System.out.println("Invalid choice. Please enter a number from 1 to 5.");
+            System.out.print("Enter task priority (1 to 3): ");
+            priority = scanner.nextInt();
+            if (priority > 3 || priority < 1) { //Keep inbounds
+                System.out.println("Invalid input: Out of Bounds");
+                break;
             }
-        }
-    }
 
-    // Method to parse date from string input - check whether the date exists/is written correctly
+            System.out.print("Enter due date (yyyy/MM/dd): ");
+            String dueDateString = scanner.next();
+            Date dueDate = parseDate(dueDateString);
+            Date date1 = new Date();
+
+            if (dueDate != null) {
+                if (date1.compareTo(dueDate) > 0) { //check for due date to be after current time
+                System.out.println("This date has already passed.");
+                break;
+            }
+                taskManager.addTask(new Task(taskManager.getNextTaskId(taskManager.length()), description, dueDate, priority));
+                System.out.println("Task added successfully.");
+            } else {
+                System.out.println("Invalid date format. Please enter date in yyyy/MM/dd format.");
+            }
+            break;
+        case 2:
+            System.out.print("Enter task ID to mark as completed: ");
+            int taskId = scanner.nextInt();
+            taskManager.markTaskCompleted(taskId);
+            taskManager.removeTaskById(taskId);
+            break;
+        case 3:
+            System.out.println("             TaskId    |    Description    |    Due Date   |   Priority   ");
+            taskManager.viewAllTasks();
+            break;
+        case 4:
+            taskManager.generateReportTasksDueToday();
+            break;
+        case 5:
+            System.out.println("Exiting...");
+            quitting = false;
+            break;
+        default:
+            System.out.println("Invalid choice. Please enter a number from 1 to 5.");
+    }
+}
+        }
+
+
+    // Method to parse date from string input
     private static Date parseDate(String dateString) {
         try {
             return new Date(dateString);
