@@ -1,0 +1,38 @@
+import java.util.*;
+class Task {
+    private int taskId;
+    private String description;
+    private Date dueDate;
+    private boolean completed;
+
+    // Constructor to initialize task object
+    public Task(int taskId, String description, Date dueDate) {
+        this.taskId = taskId;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.completed = false;
+    }
+
+    // Getter and setter methods for task attributes
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void markCompleted() {
+        this.completed = true;
+    }
+
+    // Method to return task details as a string
+    @Override
+    public String toString() {
+        return "Task --- taskId = " + taskId + ", description =' " + description + '\'' + ", dueDate = " + dueDate + ", completed = " + completed;
+    }
+}
