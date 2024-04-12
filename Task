@@ -4,13 +4,15 @@ class Task {
     private String description;
     private Date dueDate;
     private boolean completed;
+    private int priority;
 
     // Constructor to initialize task object
-    public Task(int taskId, String description, Date dueDate) {
+    public Task(int taskId, String description, Date dueDate, int priority) {
         this.taskId = taskId;
         this.description = description;
         this.dueDate = dueDate;
         this.completed = false;
+        this.priority=priority;
     }
 
     // Getter and setter methods for task attributes
@@ -25,6 +27,9 @@ class Task {
     public Date getDueDate() {
         return dueDate;
     }
+    public int getPriority() {
+        return priority;
+    }
 
     public void markCompleted() {
         this.completed = true;
@@ -33,6 +38,6 @@ class Task {
     // Method to return task details as a string
     @Override
     public String toString() {
-        return "Task --- taskId = " + taskId + ", description =' " + description + '\'' + ", dueDate = " + dueDate + ", completed = " + completed;
+        return "Task --- " + taskId + ", '" + description + '\'' + ", " + dueDate + ", " + priority;
     }
 }
