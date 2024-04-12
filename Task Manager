@@ -1,0 +1,47 @@
+import java.util.*;
+class TaskManager {
+    private ArrayList<Task> tasks;
+
+    // Constructor to initialize TaskManager with an empty list of tasks
+    public TaskManager() {
+        tasks = new ArrayList<>();
+    }
+
+    // Method to add a new task
+    public void addTask(Task task) {
+        tasks.add(task);
+    }
+
+    // Method to mark a task as completed
+    public void markTaskCompleted(int taskId) {
+        for (Task task : tasks) {
+            if (task.getTaskId() == taskId) {
+                task.markCompleted();
+                System.out.println("Task marked as completed: " + task.getDescription());
+                return;
+            }
+        }
+        System.out.println("Task with ID " + taskId + " not found.");
+    }
+
+    // Method to view all tasks
+    public void viewAllTasks() {
+        for (Task task : tasks) {
+            System.out.println(task);
+        }
+    }
+    // Method to calculate the TaskId of a new task
+    public int getNextTaskId() {
+        return tasks.size() + 1;
+    }
+
+    // Method to generate reports of tasks due today (24 hours)
+    public void generateReportTasksDueToday() {
+        Date now = new Date();
+        for (Task task : tasks) {        
+            if (task.getDueDate().getTime() <= now.getTime() + 24 * 60 * 60 * 1000) { //Check if task is within 24 hours
+                System.out.println(task);
+            }
+        }
+    }
+}
