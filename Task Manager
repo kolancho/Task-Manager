@@ -11,13 +11,16 @@ class TaskManager {
     public void addTask(Task task) {
         tasks.add(task);
     }
+    public void removeTaskById(int task) {
+        tasks.remove(task - 1);
+    }
 
     // Method to mark a task as completed
     public void markTaskCompleted(int taskId) {
         for (Task task : tasks) {
             if (task.getTaskId() == taskId) {
                 task.markCompleted();
-                System.out.println("Task marked as completed: " + task.getDescription());
+                System.out.println("Task marked as completed and removed from the task manager: " + task.getDescription());
                 return;
             }
         }
@@ -26,22 +29,29 @@ class TaskManager {
 
     // Method to view all tasks
     public void viewAllTasks() {
+
         for (Task task : tasks) {
             System.out.println(task);
         }
     }
-    // Method to calculate the TaskId of a new task
-    public int getNextTaskId() {
-        return tasks.size() + 1;
+
+    // Method to calculate the taskId of a new task
+    public int getNextTaskId(Task task) {
+        return task.getTaskId() + 1;
     }
 
     // Method to generate reports of tasks due today (24 hours)
     public void generateReportTasksDueToday() {
         Date now = new Date();
-        for (Task task : tasks) {        
-            if (task.getDueDate().getTime() <= now.getTime() + 24 * 60 * 60 * 1000) { //Check if task is within 24 hours
+        for (Task task : tasks) {
+            if (task.getDueDate().getTime() <= now.getTime() + 24 * 60 * 60 * 1000) {
                 System.out.println(task);
             }
         }
+    }
+// Method to get the last object of an ArrayList
+    public Task length() {
+        int i = tasks.size() - 1;
+        return tasks.get(i);
     }
 }
